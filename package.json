@@ -1,0 +1,27 @@
+{
+  "name": "quizapp",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "errorhandler": "^1.5.0",
+    "express": "*",
+    "express-session": "^1.15.6",
+    "mongoose": "^5.4.0",
+    "mongoose-auto-increment": "^5.0.1",
+    "multer": "^1.4.1",
+    "passport": "*",
+    "passport-http": "*",
+    "passport-local": "*",
+    "xls-to-json-lc": "^0.3.4",
+    "xlsx-to-json-lc": "^0.5.0"
+  },
+  "author": "",
+  "license": "ISC"
+}
