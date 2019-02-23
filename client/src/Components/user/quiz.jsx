@@ -19,12 +19,13 @@ class quiz extends Component
         wrong:'red',
         catvalue:'',
       subvalue:'',
-      quizvalue:''
+      quizvalue:'',
+      userName:""
      
         }
         componentWillMount() {
           this.callBackendAPI()
-            .then(res => this.setState({ userType: res.express.type }),function(){
+            .then(res => this.setState({ userType: res.express.type, userName:res.express.userName }),function(){
                 console.log(this.state.userType)
                
             })
@@ -44,13 +45,29 @@ class quiz extends Component
         callBackendAPI = async () => {
             const response = await fetch('/api/user/data');
             const body = await response.json();
-          //console.log(body)
+          console.log(body)
             if (response.status !== 200) {
               throw Error(body.message) 
             }
             return body;
           }
 
+          sendScore = ()=>{
+            const data = {
+              category:this.state.catvalue,
+              subcategory:this.state.subvalue,
+              quizName:this.state.quizvalue,
+              value: this.state.score,
+              userName:this.state.userName
+              }
+       console.log(data)
+           axios.post('/api/user/saveScore', data, {
+           headers: { 'Content-Type': 'application/json' }
+         })
+         .then(function (res){
+           console.log(res)
+        
+          })}
           getsubcateg = async () => {
             const response = await fetch('/api/category/getSubCategory');
             const body = await response.json();
@@ -206,6 +223,7 @@ class quiz extends Component
                 this.state.score+=parseInt(this.state.data[this.state.i].score)
                 
                 this.setState({score:this.state.score})
+                
                 e.target.style.background=this.state.right
               //  setTimeout(()=> {e.target.style.background=this.state.color},400)
               if(this.state.i+1<this.state.data.length){
@@ -231,7 +249,7 @@ class quiz extends Component
         else{
             setTimeout(()=> {this.setState({time:0})},500)
         }
-            
+        this.sendScore()
 
         }        
     render(){
@@ -268,6 +286,7 @@ class quiz extends Component
                     {this.state.time<=0&&<div>
                       <h2>Quiz Over</h2><br/>
                       <h3>Score: {this.state.score}</h3>
+                      {this.sendScore()}
                   </div>}
             </div>
                    }

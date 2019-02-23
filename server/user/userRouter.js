@@ -96,4 +96,17 @@ router.post('/userLogin',
         
     })
 
+
+    router.post('/saveScore', function(req, res) {
+        console.log(req.body)
+    userController.saveScore(req,res)
+    {
+        try{
+          //  console.log(req.body)
+        }
+    catch(err){
+        console.log("something"+err)
+    }}
+    });
+
 module.exports=router;

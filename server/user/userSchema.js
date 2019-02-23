@@ -30,16 +30,25 @@ const userSchema = new Schema({
   score: [{
     category:{
         type:String,
-        required:false
+        required:false,
+        default:""
     },
     subcategory:{
       type:String,
-      required:false
+      required:false,
+      default:"",
+      
+    },
+    quizName:{
+      type:String,
+      required:false,
+      default:""
     },
     value:{
-        type:String,
-        required:false
-    }  
+        type:Number,
+        required:false,
+        default:""
+    },
 }],
   flag:{
       type:String,

@@ -30,6 +30,9 @@ catch(err){
 }}
 });
 
+
+
+
 router.get('/getQuizName', function (req, res) {
     quizController.getQuizName(req,res)
     {
