@@ -11,6 +11,7 @@ class quiz extends Component
         time: 20,
         category:[],
         subcategory:[],
+        quizName:[],
         session:'',
         i:0,
         color:"#28282b",
@@ -18,6 +19,7 @@ class quiz extends Component
         wrong:'red',
         catvalue:'',
       subvalue:'',
+      quizvalue:''
      
         }
         componentWillMount() {
@@ -42,7 +44,7 @@ class quiz extends Component
         callBackendAPI = async () => {
             const response = await fetch('/api/user/data');
             const body = await response.json();
-          console.log(body)
+          //console.log(body)
             if (response.status !== 200) {
               throw Error(body.message) 
             }
@@ -52,12 +54,12 @@ class quiz extends Component
           getsubcateg = async () => {
             const response = await fetch('/api/category/getSubCategory');
             const body = await response.json();
-          console.log(body)
+        //  console.log(body)
             if (response.status !== 200) {
               throw Error(body.message) 
             }
             
-            console.log(this.state.catvalue)
+          //  console.log(this.state.catvalue)
             
             for(var i=0;i<body.subcateg.length;i++)
             {
@@ -72,6 +74,38 @@ class quiz extends Component
             console.log(obj)
             this.setState({subcategory:obj},function(){
               console.log(this.state.subcategory)
+            })
+          }
+          }
+      
+           // options=this.state.category
+            //console.log(options)
+            return body;
+          }
+          getName = async () => {
+            const response = await fetch('/api/quiz/getQuizName');
+            const body = await response.json();
+            this.setState({quizName:""})
+      //    console.log(body)
+            if (response.status !== 200) {
+              throw Error(body.message) 
+            }
+            
+            
+            for(var i=0;i<body.quizname.length;i++)
+            {
+            if(this.state.catvalue==body.quizname[i].category&&this.state.subvalue==body.quizname[i].subcategory){
+            var quizName=[]
+            quizName=Object.assign({}, body.quizname[i], { category: undefined });
+            delete quizName.category
+            console.log(quizName.text.length)
+            var obj=[]
+            for(var j=0;j<quizName.length;j++)
+            console.log(quizName.length)
+            obj[j] ={key:quizName.text, text:quizName.text,value:quizName.value}
+            console.log(obj)
+            this.setState({quizName:obj},function(){
+              console.log(this.state.quizName)
             })
           }
           }
@@ -101,13 +135,13 @@ class quiz extends Component
           getCategory = async () => {
             const response = await fetch('/api/category/getcategory');
             const body = await response.json();
-          console.log(body)
+        //  console.log(body)
             if (response.status !== 200) {
               throw Error(body.message) 
             }
             this.setState({category:body.categ})
            let options=this.state.category
-            console.log(options)
+           // console.log(options)
             return body;
           }
           handleChange=(e,data)=>
@@ -116,7 +150,7 @@ class quiz extends Component
              console.log(this.state.catvalue)
            })
            this.getsubcateg()
-      
+      this.getName()
             console.log(data.value)
           }
       
@@ -125,12 +159,23 @@ class quiz extends Component
            this.setState({subvalue:data.value},function(){
              console.log(this.state.subvalue)
            })
+           this.getName()
+           console.log(data.value)
+          }
+
+          handleNameChange=(e,data)=>
+          {
+           this.setState({quizvalue:data.value},function(){
+             console.log("name of quiz"+this.state.quizvalue)
+           })
+         
           }
           onSubmit=(e)=> {
               var that=this
             const data = {
                 category:this.state.catvalue,
-                subcategory:this.state.subvalue
+                subcategory:this.state.subvalue,
+                quizName:this.state.quizvalue
                 }
          console.log(data)
              axios.post('/api/quiz/getQuiz', data, {
@@ -250,6 +295,15 @@ class quiz extends Component
               onChange={this.handleSubChange}
               label={{ children: 'Sub Category', htmlFor: 'form-select-control-gender' }}
               placeholder='Sub Category'
+              search
+              searchInput={{ id: 'form-select-control-gender' }}/>
+
+              <Form.Field
+              control={Select}
+              options={this.state.quizName}
+              onChange={this.handleNameChange}
+              label={{ children: 'Quiz Name', htmlFor: 'form-select-control-gender' }}
+              placeholder='Name'
               search
               searchInput={{ id: 'form-select-control-gender' }}/>
     <Form.Field

@@ -30,6 +30,20 @@ catch(err){
 }}
 });
 
+router.get('/getQuizName', function (req, res) {
+    quizController.getQuizName(req,res)
+    {
+    try{
+      //  console.log(req)
+    // res.send({
+    //    express:req.doc
+    // });
+}
+catch(err){
+    console.log("something"+err)
+}}
+});
+
 router.post('/getQuiz', function(req, res) {
     console.log(req.body)
 quizController.getQuiz(req,res)

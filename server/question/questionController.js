@@ -104,13 +104,14 @@ function getQuiz(req,res){
         
          var categ = req.body.category
          var subcateg = req.body.subcategory
+         var name = req.body.quizName
          console.log(req)
         // var categ = "TV Shows"
         console.log(categ)
         console.log(subcateg)
         //  var subcateg = "Friends"
 
-        quizSchema.findOne({'category':categ,'subcategory':subcateg},function(err,docs){
+        quizSchema.findOne({'category':categ,'subcategory':subcateg, 'quizname':name},function(err,docs){
             if(err) console.log(err)
             if(docs==null) {
                 console.log("no quiz found")
@@ -123,9 +124,26 @@ function getQuiz(req,res){
     
     });
 }
-
+ getQuizName=(req,res)=>{
+    var quiz= new quizSchema()
+    quizSchema.find({},function(err,doc){
+        if(err) throw err;
+         if(doc){
+             console.log(doc)
+             var quizname=[]
+             for(var i=0; i<doc.length;i++)
+             {
+console.log(({exp:doc[i].quizname, doc:doc[i].category, doc:doc[i].subcategory}))
+             quizname[i]= {"text":doc[i].quizname,"value":doc[i].quizname,"category":doc[i].category,"subcategory":doc[i].subcategory}    
+               }   
+            res.send({quizname})
+            }
+    })
+    
+    }
 module.exports={
     uploadFile:uploadFile,
     createQuiz:createQuiz,
-    getQuiz:getQuiz
+    getQuiz:getQuiz,
+    getQuizName:getQuizName
 }
