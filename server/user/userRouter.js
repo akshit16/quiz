@@ -13,7 +13,7 @@ router.post('/addUser',function(req,res){
     userController.addUser(req,res)
     {
         try{
-            console.log(req.body.name)
+          //  console.log(req.body.name)
         }
     catch(err){
         console.log("something"+err)
@@ -44,7 +44,7 @@ passport.serializeUser(function (user,done) {
     console.log("done"+done)
     console.log("id"+user.id)
     done(null, user);
-    console.log("++++++"+done)
+    //console.log("++++++"+done)
     //console.log(err)
 });
 
@@ -71,9 +71,9 @@ router.post('/userLogin',
     {
         try{
             console.log(req.body)
-         console.log("+++passport"+(req.session.passport.user))
+         //console.log("+++passport"+(req.session.passport.user))
            res.send({express:req.user})
-        console.log("session set"+JSON.stringify(req.session.passport))   
+        //console.log("session set"+JSON.stringify(req.session.passport))   
      }
     
     catch(err){
@@ -87,12 +87,12 @@ router.post('/userLogin',
 
     router.get('/data',function(req,res){
         res.send({express:req.user})
-        console.log(req.user)
+     //   console.log(req.user)
     })
     
     router.get('/session',(req,res)=>
     {   
-        console.log("++++"+req.user)
+        //console.log("++++"+req.user)
         
     })
 

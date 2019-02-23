@@ -4,7 +4,7 @@ var bcrypt = require('bcryptjs');
 
 function addUser(req,res){
     var user= new userSchema()
- console.log(req.body.name)
+// console.log(req.body.name)
  user.userName = req.body.userName
  user.password = req.body.password
  user.fullname = req.body.fullname
@@ -27,12 +27,12 @@ else {
 
 function getUserByUsername(username, callback){
     var query = {userName: username};
-    console.log("radadad"+username)
+  //  console.log("radadad"+username)
     userSchema.findOne(query, callback);
 }
 
 function getUserById(id, callback){
-    console.log("id se lenge"+id)
+    //console.log("id se lenge"+id)
     userSchema.findById(id, callback);
 }
 

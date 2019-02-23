@@ -15,7 +15,8 @@ mongoose.promise = global.Promise;
 const isProduction = process.env.NODE_ENV === 'production';
 
 const app = express();
-
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
 
 /** API path that will upload the files */
 
@@ -43,6 +44,17 @@ app.get('/logout', function (req, res){
       res.redirect('/'); //Inside a callback… bulletproof!
     });
   });
+  io.on('connection', socket =>{
+    console.log('a user is connected')
+    
+    socket.on('SEND_MESSAGE', (data) => {
+      console.log(data)
+      io.emit('RECEIVE_MESSAGE', data);
+   })
+   socket.on('disconnect', () => {
+    console.log('user disconnected')
+  })
+})
 mongoose.connect('mongodb://localhost/quizapp',()=>{
     console.log("connected")
 });
@@ -62,4 +74,4 @@ if (!isProduction) {
 }
 
 
-app.listen(5000, () => console.log('Server started on http://localhost:5000'));
+http.listen(5000, () => console.log('Server started on http://localhost:5000'));
