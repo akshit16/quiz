@@ -9,6 +9,7 @@ var multer = require('multer');
 var LocalStrategy = require('passport-local').Strategy;
 var bcrypt = require('bcryptjs');
 var cors = require('cors')
+const port = process.env.PORT || 5000;
 
 
 const isProduction = process.env.NODE_ENV === 'production';
@@ -73,4 +74,4 @@ app.get('/logout', function (req, res){
 
 
 
-http.listen(5000, () => console.log('Server started on http://localhost:5000'));
+http.listen(port, () => console.log('Server started on http://localhost:5000'));
