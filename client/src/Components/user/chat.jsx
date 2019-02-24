@@ -79,7 +79,7 @@ class chat extends Component {
 
                             </div>
                             <div className="card-footer">
-                                <input type="text" placeholder="Username" value={this.state.username}  className="form-control"/>
+                                <input type="text" placeholder="Username" value="prachi"  className="form-control"/>
                                 <br/>
                                 <input type="text" placeholder="Message" className="form-control" value={this.state.message} onChange={ev => this.setState({message: ev.target.value})}/>
                                 <br/>

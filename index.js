@@ -31,10 +31,10 @@ app.use(passport.initialize())
 app.use(passport.session())
 
 //routes
-app.use("/api/admin",require('./server/admin/adminRouter'))
-app.use("/api/category",require('./server/category/categoryRouter'))
-app.use("/api/quiz",require('./server/question/questionRouter'))
-app.use("/api/user",require('./server/user/userRouter'))
+// app.use("/api/admin",require('./server/admin/adminRouter'))
+// app.use("/api/category",require('./server/category/categoryRouter'))
+// app.use("/api/quiz",require('./server/question/questionRouter'))
+// app.use("/api/user",require('./server/user/userRouter'))
 
 if(!isProduction) {
   app.use(errorHandler());
