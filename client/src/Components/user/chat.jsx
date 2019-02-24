@@ -8,7 +8,7 @@ class chat extends Component {
             message: '',
             messages: [],
             userType:"",
-            endpoint:"http://localhost:5000"
+            endpoint:"https://warm-journey-63878.herokuapp.com"
         };
        
         componentDidMount() {
