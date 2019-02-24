@@ -39,6 +39,22 @@ app.use("/api/user",require('./server/user/userRouter'))
 if(!isProduction) {
   app.use(errorHandler());
 }
+//Static file declaration
+app.use(express.static(path.join(__dirname, 'client/build')));
+
+//production mode
+if(process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'client/build')));
+  //
+  app.get('*', (req, res) => {
+    res.sendfile(path.join(__dirname = 'client/build/index.html'));
+  })
+}
+//build mode
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname+'/client/public/index.html'));
+})
+
 app.get('/logout', function (req, res){
     req.session.destroy(function (err) {
       res.redirect('/'); //Inside a callback… bulletproof!
