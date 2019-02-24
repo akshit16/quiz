@@ -1,0 +1,77 @@
+const path = require('path');
+const express = require('express');
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const errorHandler = require('errorhandler');
+
+var passport = require('passport');
+var multer = require('multer');
+var LocalStrategy = require('passport-local').Strategy;
+var bcrypt = require('bcryptjs');
+var cors = require('cors')
+
+mongoose.promise = global.Promise;
+
+const isProduction = process.env.NODE_ENV === 'production';
+
+const app = express();
+var http = require('http').Server(app);
+var io = require('socket.io')(http);
+
+/** API path that will upload the files */
+
+app.use(cors())
+app.use(bodyParser.urlencoded({ extended: false }))
+
+// parse application/json
+app.use(bodyParser.json())
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(session({ secret: 'quizapp', resave: false, saveUninitialized: false }));
+app.use(passport.initialize())
+app.use(passport.session())
+
+//routes
+app.use("/api/admin",require('./server/admin/adminRouter'))
+app.use("/api/category",require('./server/category/categoryRouter'))
+app.use("/api/quiz",require('./server/question/questionRouter'))
+app.use("/api/user",require('./server/user/userRouter'))
+
+if(!isProduction) {
+  app.use(errorHandler());
+}
+//Static file declaration
+app.use(express.static(path.join(__dirname, 'client/build')));
+
+//production mode
+if(process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, 'client/build')));
+  //
+  app.get('*', (req, res) => {
+    res.sendfile(path.join(__dirname = 'client/build/index.html'));
+  })
+}
+//build mode
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname+'/client/public/index.html'));
+})
+
+app.get('/logout', function (req, res){
+    req.session.destroy(function (err) {
+      res.redirect('/'); //Inside a callback… bulletproof!
+    });
+  });
+  io.on('connection', socket =>{
+    console.log('a user is connected')
+    
+    socket.on('SEND_MESSAGE', (data) => {
+      console.log(data)
+      io.emit('RECEIVE_MESSAGE', data);
+   })
+   socket.on('disconnect', () => {
+    console.log('user disconnected')
+  })
+})
+
+
+
+http.listen(5000, () => console.log('Server started on http://localhost:5000'));
