@@ -10,7 +10,6 @@ var LocalStrategy = require('passport-local').Strategy;
 var bcrypt = require('bcryptjs');
 var cors = require('cors')
 
-mongoose.promise = global.Promise;
 
 const isProduction = process.env.NODE_ENV === 'production';
 
