@@ -15,7 +15,7 @@ const chatSchema = new Schema({
     type: String
   }],
   chat: [{
-   type:String
+    type: String
   }],
   createdAt: {
     type: String,
